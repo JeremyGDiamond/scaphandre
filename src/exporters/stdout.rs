@@ -27,8 +27,8 @@ pub struct ExporterArgs {
     pub timeout: i64,
 
     /// Interval between two measurements, in seconds
-    #[arg(short, long, value_name = "SECONDS", default_value_t = 2)]
-    pub step: u64,
+    #[arg(short, long, value_name = "SECONDS", default_value_t = 2.0)]
+    pub step: f64,
 
     /// Maximum number of processes to display
     #[arg(short, long, default_value_t = 5)]
@@ -54,7 +54,7 @@ pub struct ExporterArgs {
 impl Exporter for StdoutExporter {
     /// Runs [iterate()] every `step` until `timeout`
     fn run(&mut self) {
-        let time_step = Duration::from_secs(self.args.step);
+        let time_step = Duration::from_secs_f64(self.args.step);
         let time_limit = if self.args.timeout < 0 {
             None
         } else {
